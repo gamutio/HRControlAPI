@@ -1,0 +1,30 @@
+{
+  "name": "hrcontrolapp",
+  "version": "1.0.0",
+  "description": "App control de HR",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/node": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "nodemon": "^2.0.16"
+  },
+  "scripts": {
+    "dev": "nodemon src/index.js --exec babel-node", 
+    "build": "babel src --out-dir build", 
+    "start": "node build/index.js"
+  },
+  "author": "Gamutio",
+  "license": "ISC"
+}
