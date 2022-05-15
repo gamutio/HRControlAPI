@@ -17,4 +17,4 @@ router.put('/:id', [authJwt.verifyToken, authJwt.isAdmin],updateEmployeeByID);
 router.delete('/:id', [authJwt.verifyToken, authJwt.isAdmin],deleteEmployeeByID);
 
 
-module.exports = router;
+module.exports = router
