@@ -1,16 +1,37 @@
 {
   "name": "hrcontrolapp",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
+  "version": "1.0.0",
+  "description": "App control de HR",
+  "main": "index.js",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1"
-  }
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.3",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/node": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "nodemon": "^2.0.16"
+  },
+  "scripts": {
+    "dev": "nodemon src/index.js --exec babel-node",
+    "start": "nodemon src/index.js --rs --exec babel-node"
+  },
+  "author": "Gamutio",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gamutio/HRControlAPP.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gamutio/HRControlAPP/issues"
+  },
+  "homepage": "https://github.com/gamutio/HRControlAPP#readme"
 }
