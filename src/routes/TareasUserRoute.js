@@ -5,7 +5,7 @@ const Tarea = require('../models/TareasUsuario');
 
 //Devolvemos los datos de todas las Tareas
 router.get('/', async(req, res) => {
-    const iduser = req.body;
+    //const iduser = req.body;
     const ficha = await Tarea.find();
     res.json(ficha);
     

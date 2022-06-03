@@ -25,6 +25,7 @@ router.delete('/:id', async(req, res) => {
     res.json({message: "Fichaje del usuario eliminado"});
 });
 
+//actualizamos el fichaje con la salida pasando id y hora de fin
 router.patch('/:id-:horaFin', async(req, res) => {
     console.log(req.body.horaFin);
     await Fichaje.findByIdAndUpdate(req.params.id, req.body);

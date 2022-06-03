@@ -4,6 +4,9 @@ import pkg from '../package.json'
 
 import empleado from './routes/Employees'
 import login from './routes/login'
+import areas from './routes/AreasRoutes'
+import fich from './routes/FichajeRoute'
+import tareas from './routes/TareasUserRoute'
 import {createRoles, createAreas} from "./libs/initialSetup";
 
 const app = express();
@@ -24,6 +27,9 @@ app.get('/', (req,res) => {
 
 app.use('/api/employee', empleado)
 app.use('/api/login', login);
+app.use('/api/areas', areas);
+app.use('/api/ficha', fich);
+app.use('/api/tareas', tareas);
 
 
 export default app;

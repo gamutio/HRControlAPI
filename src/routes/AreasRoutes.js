@@ -10,6 +10,11 @@ router.get('/', async(req, res) => {
     
 });
 
+router.get('/:id', async (req, res) => {
+    const area = await Areas.findById(req.params.id)
+    res.json(area);    
+});
+
 //Guardamos area
 router.post('/', async(req, res) => {
     const {area, Description} = req.body;
