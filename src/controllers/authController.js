@@ -1,58 +1,61 @@
+import Empleado from '../models/Empleado';
 import empleado from '../models/Empleado'
-import jwt from 'jsonwebtoken';
-import conf from '../config';
-import Role from '../models/Roles'
-import Areas from '../models/Areas'
 
-export const signup = async (req, res) => {
-    const {name, email, pwd, tlfFijo, roles, area} = req.body;
-    
-    //const userFound = await empleado.find({email});
+export const createEmployee = async (req, res) => {
+    console.log(req.body)
+    const {name, fechaAlta, activo, tlfFijo, tlfMovil, email, pwd} = req.body;
+    /*const imagePath = req.file.filename;*/
+    const nuevoEm = new empleado({name, fechaAlta, activo, tlfFijo, tlfMovil, email, pwd/*, imagePath*/});
 
-    const emp = new empleado({
-        name,
-        email,
-        pwd: await empleado.encryptPassword(pwd)
-    });
-    //compruebo que los roles existen en bbdd
-    if(roles){
-        const foundRoles = await Role.find({rol: {$in: req.body.roles}});
-        emp.roles = foundRoles.map(roles => roles._id);
-        console.log(emp.roles)
-    } else {
-        const role = await Role.findOne({name: 'user'});
-        emp.roles = [role._id];
-    }
+    const empleadoRecibido = await nuevoEm.save();
 
-    //compruebo que el área existe en bbdd
-    if(area){
-        const foundAreas = await Areas.find({name: {$in: area}});
-        emp.area = foundAreas.map(area => area._id);
-    } else {
-        const areas = await Areas.findOne({name: 'Sistemas'});
-        emp.area = [areas._id];
-    }
-
-    const savedEmployee = await emp.save(); 
-    
-    const token = jwt.sign({id: savedEmployee._id}, conf.SECRET, {
-        expiresIn: 86400 //24 horas
-    });
-    res.status(200).json({token})
-    
+    res.status(201).json(empleadoRecibido);
+}
+export const getEmployees = async(req, res) => {
+    const empleados = await empleado.find();
+    res.status(200).json(empleados);
 }
 
-export const signin = async (req, res) => {
-    const userFound = await empleado.findOne({email: req.body.email}).populate("roles");
+export const getEmployeeById = async (req, res) => {
+    const empleados = await empleado.findById(req.params.id)
+    res.json(empleados);    
+}
 
-    if(!userFound) return res.status(400).json({message: "Usuario no encontrado"})
-
-    const pwdOk = await empleado.compararPassword(req.body.pwd, userFound.pwd)
-    if(!pwdOk) return res.status(400).json({token: null, message: "Password incorrecto"})
-
-    const token = jwt.sign({id: userFound._id}, conf.SECRET, {
-        expiresIn: 86400
-    })
-    const userId = userFound._id;
-    res.json({token, userId})
+export const updateEmployeeByID = async (req, res) => {
+    console.log("estoy actualizando")
+    const {name, email, pwd, tlfFijo, tlfMovil, roles} = req.body;
+    console.log("pwd vale: " + pwd)
+    let emp = 'test';
+    if(pwd != undefined || pwd != ''){
+        let pword= await empleado.encryptPassword(pwd);
+        emp = (
+            {
+                name,
+                email,
+                pwd: pword,
+                tlfFijo,
+                tlfMovil, 
+                roles
+            }
+        );
+        console.log(emp);
+    } else {
+        emp = (
+            {
+                name,
+                email,
+                tlfFijo,
+                tlfMovil, 
+                roles
+            }
+        );
+        console.log(emp);
+    }
+   
+    const updatedEmployee = await empleado.findByIdAndUpdate(req.params.id, emp, {new: true});
+    res.status(200).json(updatedEmployee);
+}
+export const deleteEmployeeByID = async (req, res) => {
+    const deletedEmployee = await empleado.findByIdAndDelete(req.params.id);  
+    res.status(204).json(deletedEmployee);
 }
