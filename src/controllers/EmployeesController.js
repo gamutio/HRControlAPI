@@ -1,3 +1,4 @@
+import Empleado from '../models/Empleado';
 import empleado from '../models/Empleado'
 
 export const createEmployee = async (req, res) => {
@@ -21,7 +22,37 @@ export const getEmployeeById = async (req, res) => {
 }
 
 export const updateEmployeeByID = async (req, res) => {
-    const updatedEmployee = await empleado.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    console.log("estoy actualizando")
+    const {name, email, pwd, tlfFijo, tlfMovil, roles} = req.body;
+    console.log("pwd vale: " + pwd)
+    let emp = 'test';
+    if(pwd != undefined || pwd != ''){
+        let pword= await empleado.encryptPassword(pwd);
+        emp = (
+            {
+                name,
+                email,
+                pwd: pword,
+                tlfFijo,
+                tlfMovil, 
+                roles
+            }
+        );
+        console.log(emp);
+    } else {
+        emp = (
+            {
+                name,
+                email,
+                tlfFijo,
+                tlfMovil, 
+                roles
+            }
+        );
+        console.log(emp);
+    }
+   
+    const updatedEmployee = await empleado.findByIdAndUpdate(req.params.id, emp, {new: true});
     res.status(200).json(updatedEmployee);
 }
 export const deleteEmployeeByID = async (req, res) => {
